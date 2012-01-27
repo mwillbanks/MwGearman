@@ -7,9 +7,10 @@
  * @subpackage mwGearman\Client
  */
 
-namespace \mwGearman\Client;
+namespace mwGearman\Client;
 
-use \mwGearman\Task as Task;
+use \mwGearman\Client as Client,
+    \mwGearman\Task as Task;
 
 /**
  * Gearman PECL Client
@@ -20,7 +21,6 @@ use \mwGearman\Task as Task;
  */
 class Pecl implements Client
 {
-
     /**
      * @var GearmanClient
      */
@@ -67,7 +67,7 @@ class Pecl implements Client
     public function getGearmanClient()
     {
         if (!$this->client) {
-            $this->client = new GearmanClient();
+            $this->client = new \GearmanClient();
         }
 
         if ($this->timeout !== null) {
@@ -216,6 +216,9 @@ class Pecl implements Client
         if ($task->isBackground()) {
             $method .= 'Background';
         }
+        if ($method == 'doNormalBackground') {
+            $method = 'doBackground';
+        }
 
         if ($task->hasContext()) {
             $oldContext = $client->context();
@@ -250,6 +253,9 @@ class Pecl implements Client
             $method .= ucwords($task->getPriority());
             if ($task->isBackground()) {
                 $method .= 'Background';
+            }
+            if ($method == 'doNormalBackground') {
+                $method = 'doBackground';
             }
 
             $context = ($task->hasContext()) ? $task->getContext() : $this->getContext();

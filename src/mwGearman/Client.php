@@ -1,6 +1,6 @@
 <?php
 
-namespace \mwGearman;
+namespace mwGearman;
 
 interface Client
 {
@@ -13,8 +13,8 @@ interface Client
     public function close();
 
     // task related
-    public function addTask(\Gearman\Task $task);
-    public function doTask(\Gearman\Task $task);
+    public function addTask(\mwGearman\Task $task);
+    public function doTask(\mwGearman\Task $task);
     public function runTasks();
 
     // global task callbacks (tasks additionally can have callbacks)
@@ -32,5 +32,5 @@ interface Client
     public function getTimeout();
     public function setTimeout($timeout);
 
-    public function ping();
+    public function ping($workload);
 }

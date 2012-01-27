@@ -1,6 +1,6 @@
 <?php
 
-namespace \mwGearman;
+namespace mwGearman;
 
 interface Task
 {

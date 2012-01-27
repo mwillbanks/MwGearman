@@ -7,7 +7,7 @@
  * @subpackage mwGearman\Task
  */
 
-namespace \mwGearman\Task;
+namespace mwGearman\Task;
 
 /**
  * Gearman Task
@@ -17,7 +17,7 @@ namespace \mwGearman\Task;
  * @package    mwGearman
  * @subpacakge Task
  */
-class Task
+class Task implements \mwGearman\Task
 {
     /**
      * @var bool
@@ -110,12 +110,12 @@ class Task
      *
      * @param string $func
      * @return \mwGearman\Task
-     * @throws \IllegalArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setFunction($func)
     {
         if (empty($func) || !is_string($func)) {
-            throw new \IllegalArgumentException('Function must be a valid string');
+            throw new \InvalidArgumentException('Function must be a valid string');
         }
         $this->function = $func;
         return $this;
@@ -136,13 +136,13 @@ class Task
      *
      * @string $priority
      * @return \mwGearman\Task
-     * @throws \IllegalArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setPriority($priority)
     {
         $allowed = array('high', 'normal', 'low');
         if (!in_array($priority, $allowed)) {
-            throw new \IllegalArgumentException('Priority must be one of high, normal or low');
+            throw new \InvalidArgumentException('Priority must be one of high, normal or low');
         }
         $this->priority = $priority;
         return $this;
@@ -161,14 +161,14 @@ class Task
     /**
      * Set Unique
      *
-     * @param string $uniq
+     * @param scalar $uniq
      * @return \mwGearman\Task
-     * @throws \IllegalArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setUnique($uniq)
     {
-        if (!is_string($uniq)) {
-            throw new \IllegalArgumentException('Unique must be a string');
+        if (!is_scalar($uniq)) {
+            throw new \InvalidArgumentException('Unique must be a string');
         }
         $this->unique = $uniq;
         return $this;
@@ -189,12 +189,12 @@ class Task
      *
      * @param string $workload
      * @return \mwGearman\Task
-     * @throws \IllegalArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setWorkload($workload)
     {
-        if (empty($workload) || !is_string($worload)) {
-            throw new \IllegalArgumentException('Workload must be non-null or a string');
+        if (empty($workload) || !is_string($workload)) {
+            throw new \InvalidArgumentException('Workload must be non-null or a string');
         }
         return $this;
     }
