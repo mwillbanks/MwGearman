@@ -40,6 +40,16 @@ class Task implements \mwGearman\Task
     protected $priority = 'normal';
 
     /**
+     * @var string
+     */
+    protected $workload;
+
+    /**
+     * @var string
+     */
+    protected $unique;
+
+    /**
      * Is Background Task
      *
      * @return bool
@@ -196,6 +206,7 @@ class Task implements \mwGearman\Task
         if (empty($workload) || !is_string($workload)) {
             throw new \InvalidArgumentException('Workload must be non-null or a string');
         }
+        $this->workload = $workload;
         return $this;
     }
 }

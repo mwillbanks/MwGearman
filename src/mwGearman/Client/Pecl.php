@@ -171,7 +171,7 @@ class Pecl implements Client
         }
 
         $client = $this->getGearmanClient();
-        $client->addServers(implode(',', array_keys($this->_servers)));
+        $client->addServers(implode(',', array_keys($this->servers)));
     }
 
     /**
