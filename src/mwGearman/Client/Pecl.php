@@ -97,14 +97,14 @@ class Pecl implements Client
      * @param string $host
      * @param int $port
      * @return \mwGearman\Client\Pecl
-     * @throws \IllegalArgumentException
+     * @throws \InvalidArgumentException
      */
     public function addServer($host, $port = 4730)
     {
         if (!is_string($host)) {
-            throw new \IllegalArgumentException('The server hostname must be a string');
+            throw new \InvalidArgumentException('The server hostname must be a string');
         } else if (!is_numeric($port)) {
-            throw new \IllegalArgumentException('The server port must be numberic');
+            throw new \InvalidArgumentException('The server port must be numberic');
         }
 
         $this->servers[$host . ':' . $port] = array($host, $port);
@@ -139,20 +139,21 @@ class Pecl implements Client
      *
      * @param array $servers list of servers in [] = array($host, $port)
      * @return \mwGearman\Client\Pecl
-     * @throws \IllegalArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setServers(array $servers)
     {
         foreach ($servers as $server) {
 
             if (!isset($server[0])) {
-                throw new \IllegalArgumentException('The servers array must contain a host value.');
+                throw new \InvalidArgumentException('The servers array must contain a host value.');
             }
 
             if (!isset($server[1])) {
-                $server[1] = null;
+                $this->addServer($server[0]);
+            } else {
+                $this->addServer($server[0], $server[1]);
             }
-            $this->addServer($server[0], $server[1]);
         }
         return $this;
     }
@@ -293,7 +294,7 @@ class Pecl implements Client
     public function setContext($context)
     {
         if (!is_string($context)) {
-            throw new \IllegalArgumentException('Context must be a string');
+            throw new \InvalidArgumentException('Context must be a string');
         }
         $this->context = $context;
     }
@@ -313,12 +314,12 @@ class Pecl implements Client
      *
      * @param int $timeout
      * @return \mwGearman\Client\Pecl
-     * @throws \IllegalArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setTimeout($timeout)
     {
         if (!is_numeric($timeout)) {
-            throw new \IllegalArgumentException('Timeout must be an integer');
+            throw new \InvalidArgumentException('Timeout must be an integer');
         }
         $this->timeout = $timeout;
         return $this;
