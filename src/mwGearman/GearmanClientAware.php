@@ -1,10 +1,11 @@
 <?php
 
 namespace mwGearman;
-use mwGearman\Client\Pecl;
+
+use mwGearman\Client;
 
 interface GearmanClientAware
 {
-    public function setGearmanClient(Pecl $client);
+    public function setGearmanClient(Client $client);
     public function getGearmanClient();
 }

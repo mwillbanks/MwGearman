@@ -21,6 +21,12 @@ use \mwGearman\Client as Client,
  */
 class Pecl implements Client
 {
+
+    /**
+     * @var bool
+     */
+    protected $isConnected = false;
+
     /**
      * @var GearmanClient
      */
@@ -108,6 +114,9 @@ class Pecl implements Client
         }
 
         $this->servers[$host . ':' . $port] = array($host, $port);
+        if ($this->isConnected) {
+            $this->getGearmanClient()->addServer($host, $port);
+        }
         return $this;
     }
 
@@ -121,6 +130,9 @@ class Pecl implements Client
     public function clearServers()
     {
         $this->servers = array();
+        if ($this->isConnected) {
+            $this->close();
+        }
         return $this;
     }
 
@@ -173,6 +185,7 @@ class Pecl implements Client
 
         $client = $this->getGearmanClient();
         $client->addServers(implode(',', array_keys($this->servers)));
+        $this->isConnected = true;
     }
 
     /**
@@ -185,9 +198,10 @@ class Pecl implements Client
      */
     public function close()
     {
-        if ($this->client instanceof GearmanClient) {
+        if ($this->client instanceof \GearmanClient) {
             $this->client = null;
         }
+        $this->isConnected = false;
         return $this;
     }
 
@@ -211,6 +225,9 @@ class Pecl implements Client
     public function doTask(Task $task)
     {
         $client = $this->getGearmanClient();
+        if (!$this->isConnected) {
+            $this->connect();
+        }
 
         $method = 'do';
         $method .= ucwords($task->getPriority());
@@ -247,6 +264,9 @@ class Pecl implements Client
      */
     public function runTasks()
     {
+        if (!$this->isConnected) {
+            $this->connect();
+        }
         $handles = array();
         foreach ($this->tasks as $task)
         {
@@ -261,17 +281,17 @@ class Pecl implements Client
 
             $context = ($task->hasContext()) ? $task->getContext() : $this->getContext();
 
-            $task = $this->client->$method(
+            $task = $this->getGearmanClient()->$method(
                 $task->getFunction(),
                 $task->getWorkload(),
                 $context,
                 $task->getUnique()
             );
-            if ($task instanceof GearmanTask) {
+            if ($task instanceof \GearmanTask) {
                 $handles[] = $task->jobHandle();
             }
         }
-        $this->client->runTasks();
+        $this->getGearmanClient()->runTasks();
         return $handles;
     }
 
@@ -297,6 +317,9 @@ class Pecl implements Client
             throw new \InvalidArgumentException('Context must be a string');
         }
         $this->context = $context;
+        if ($this->isConnected) {
+            $this->getGearmanClient()->setContext($context);
+        }
     }
 
     /**
@@ -322,6 +345,9 @@ class Pecl implements Client
             throw new \InvalidArgumentException('Timeout must be an integer');
         }
         $this->timeout = $timeout;
+        if ($this->isConnected) {
+            $this->getGearmanClient()->setTimeout($timeout);
+        }
         return $this;
     }
 
@@ -334,6 +360,9 @@ class Pecl implements Client
     public function ping($workload)
     {
         $client = $this->getGearmanClient();
+        if (!$this->isConnected) {
+            $this->connect();
+        }
         if (method_exists($client, 'ping')) {
             return $client->ping($workload);
         }
