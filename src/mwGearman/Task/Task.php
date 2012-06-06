@@ -101,6 +101,9 @@ class Task implements \mwGearman\Task
      */
     public function setContext($context)
     {
+        if (!is_string($context)) {
+            throw new Exception\InvalidArgumentException('$context must be of type string');
+        }
         $this->context = $context;
         return $this;
     }
@@ -120,12 +123,12 @@ class Task implements \mwGearman\Task
      *
      * @param string $func
      * @return \mwGearman\Task
-     * @throws \InvalidArgumentException
+     * @throws \mwGearman\Exception\InvalidArgumentException
      */
     public function setFunction($func)
     {
         if (empty($func) || !is_string($func)) {
-            throw new \InvalidArgumentException('Function must be a valid string');
+            throw new Exception\InvalidArgumentException('Function must be a valid string');
         }
         $this->function = $func;
         return $this;
@@ -146,13 +149,13 @@ class Task implements \mwGearman\Task
      *
      * @string $priority
      * @return \mwGearman\Task
-     * @throws \InvalidArgumentException
+     * @throws \mwGearman\Exception\InvalidArgumentException
      */
     public function setPriority($priority)
     {
         $allowed = array('high', 'normal', 'low');
         if (!in_array($priority, $allowed)) {
-            throw new \InvalidArgumentException('Priority must be one of high, normal or low');
+            throw new Exception\InvalidArgumentException('Priority must be one of high, normal or low');
         }
         $this->priority = $priority;
         return $this;
@@ -173,12 +176,12 @@ class Task implements \mwGearman\Task
      *
      * @param scalar $uniq
      * @return \mwGearman\Task
-     * @throws \InvalidArgumentException
+     * @throws \mwGearman\Exception\InvalidArgumentException
      */
     public function setUnique($uniq)
     {
         if (!is_scalar($uniq)) {
-            throw new \InvalidArgumentException('Unique must be a string');
+            throw new Exception\InvalidArgumentException('Unique must be a string');
         }
         $this->unique = $uniq;
         return $this;
@@ -199,12 +202,12 @@ class Task implements \mwGearman\Task
      *
      * @param string $workload
      * @return \mwGearman\Task
-     * @throws \InvalidArgumentException
+     * @throws \mwGearman\Exception\InvalidArgumentException
      */
     public function setWorkload($workload)
     {
         if (empty($workload) || !is_string($workload)) {
-            throw new \InvalidArgumentException('Workload must be non-null or a string');
+            throw new Exception\InvalidArgumentException('Workload must be non-null or a string');
         }
         $this->workload = $workload;
         return $this;
