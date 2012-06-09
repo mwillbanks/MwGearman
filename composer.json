@@ -1,0 +1,28 @@
+{
+    "name": "mwillbanks/mw-gearman",
+    "description": "A module that implements Gearman",
+    "type": "library",
+    "keywords": [
+        "zf2"
+    ],
+    "homepage": "https://github.com/mwillbanks/mwGearman",
+    "authors": [
+        {
+            "name": "Mike Willbanks",
+            "email": "mike@digitalstruct.com",
+            "homepage": "http://blog.digitalstruct.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "dev-master",
+    },
+    "autoload": {
+        "psr-0": {
+            "mwGearman": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}
