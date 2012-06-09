@@ -3,6 +3,7 @@
 namespace mwGearman\Worker;
 
 use mwGearman\Worker;
+use mwGearman\Exception;
 
 class Pecl implements Worker
 {
@@ -35,12 +36,13 @@ class Pecl implements Worker
     /**
      * Constructor
      *
-     * @return \mwGearman\Worker\Pecl
+     * @return Pecl
+     * @throws Exception\RuntimeException
      */
     public function __construct()
     {
         if (!extension_loaded('gearman')) {
-            throw new \RuntimeException('PECL gearman extension is not loaded');
+            throw new Exception\RuntimeException('PECL gearman extension is not loaded');
         }
     }
 
@@ -70,7 +72,7 @@ class Pecl implements Worker
      * Set GearmanWorker
      *
      * @param \GearmanWorker $worker
-     * @return \mwGearman\Worker\Pecl
+     * @return Pecl
      */
     public function setGearmanWorker(\GearmanWorker $worker)
     {
@@ -83,15 +85,15 @@ class Pecl implements Worker
      *
      * @param string $host
      * @param int $port
-     * @return \mwGearman\Worker\Pecl
-     * @throws \InvalidArgumentException
+     * @return Pecl
+     * @throws Exception\InvalidArgumentException
      */
     public function addServer($host, $port = 4730)
     {
         if (!is_string($host)) {
-            throw new \InvalidArgumentException('The server hostname must be a string');
+            throw new Exception\InvalidArgumentException('The server hostname must be a string');
         } else if (!is_numeric($port)) {
-            throw new \InvalidArgumentException('The server port must be numberic');
+            throw new Exception\InvalidArgumentException('The server port must be numberic');
         }
 
         $this->servers[$host . ':' . $port] = array($host, $port);
@@ -108,7 +110,7 @@ class Pecl implements Worker
      * Note that clear servers will only apply if you have not started to
      * send tasks yet; since the PECL extension will lazily load the connection
      *
-     * @return \mwGearman\Worker\Pecl
+     * @return Pecl
      */
     public function clearServers()
     {
@@ -133,15 +135,15 @@ class Pecl implements Worker
      * Set Servers
      *
      * @param array $servers list of servers in [] = array($host, $port)
-     * @return \mwGearman\Worker\Pecl
-     * @throws \InvalidArgumentException
+     * @return Pecl
+     * @throws Exception\InvalidArgumentException
      */
     public function setServers(array $servers)
     {
         foreach ($servers as $server) {
 
             if (!isset($server[0])) {
-                throw new \InvalidArgumentException('The servers array must contain a host value.');
+                throw new Exception\InvalidArgumentException('The servers array must contain a host value.');
             }
 
             if (!isset($server[1])) {
@@ -158,8 +160,8 @@ class Pecl implements Worker
      * The GearmanWorker does a lazy connection so all
      * we are doing here is simply adding the servers.
      *
-     * @return \mwGearman\Worker\Pecl
-     * @throws \RuntimeException
+     * @return Pecl
+     * @throws Exception\RuntimeException
      */
     public function connect()
     {
@@ -167,7 +169,7 @@ class Pecl implements Worker
             return $this;
         }
         if (count($this->servers) == 0) {
-            throw new \RuntimeException('You must add servers prior to connecting');
+            throw new Exception\RuntimeException('You must add servers prior to connecting');
         }
 
         $client = $this->getGearmanWorker();
@@ -185,7 +187,7 @@ class Pecl implements Worker
      * does not have a close method; we actually have
      * to deconstruct the object for this to work.
      *
-     * @return \mwGearman\Worker\Pecl
+     * @return Pecl
      */
     public function close()
     {
@@ -210,13 +212,13 @@ class Pecl implements Worker
      * Set Timeout
      *
      * @param int $timeout
-     * @return \mwGearman\Worker\Pecl
-     * @throws \InvalidArgumentException
+     * @return Pecl
+     * @throws Exception\InvalidArgumentException
      */
     public function setTimeout($timeout)
     {
         if (!is_numeric($timeout)) {
-            throw new \InvalidArgumentException('Timeout must be an integer');
+            throw new Exception\InvalidArgumentException('Timeout must be an integer');
         }
         $this->timeout = $timeout;
         if ($this->isConnected) {
@@ -229,13 +231,13 @@ class Pecl implements Worker
      * Register a function
      *
      * @param string $func
-     * @return \mwGearman\Worker\Pecl
-     * @throws \InvalidArgumentException
+     * @return Pecl
+     * @throws Exception\InvalidArgumentException
      */
     public function register($func)
     {
         if (!is_string($func)) {
-            throw new \InvalidArgumentException('Function to register must be a string');
+            throw new Exception\InvalidArgumentException('Function to register must be a string');
         }
         if (!in_array($func, $this->functions)) {
             $this->functions[] = $func;

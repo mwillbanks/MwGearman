@@ -57,8 +57,8 @@ interface Task
      * Set Function
      *
      * @param string $func
-     * @return \mwGearman\Task
-     * @throws \mwGearman\Exception\InvalidArgumentException
+     * @return Task
+     * @throws Exception\InvalidArgumentException
      */
     public function setFunction($func);
 
@@ -73,8 +73,8 @@ interface Task
      * Set Workload
      *
      * @param string $workload
-     * @return \mwGearman\Task
-     * @throws \mwGearman\Exception\InvalidArgumentException
+     * @return Task
+     * @throws Exception\InvalidArgumentException
      */
     public function setWorkload($workload);
 
@@ -89,8 +89,8 @@ interface Task
      * Set Unique
      *
      * @param scalar $uniq
-     * @return \mwGearman\Task
-     * @throws \mwGearman\Exception\InvalidArgumentException
+     * @return Task
+     * @throws Exception\InvalidArgumentException
      */
     public function setUnique($uniq);
 
@@ -112,8 +112,8 @@ interface Task
      * Set Context
      *
      * @param string $context
-     * @return \mwGearman\Task
-     * @throws \mwGearman\Exception\InvalidArgumentException
+     * @return Task
+     * @throws Exception\InvalidArgumentException
      */
     public function setContext($context);
 }

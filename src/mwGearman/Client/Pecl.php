@@ -9,8 +9,9 @@
 
 namespace mwGearman\Client;
 
-use \mwGearman\Client as Client,
-    \mwGearman\Task as Task;
+use mwGearman\Client;
+use mwGearman\Task;
+use mwGearman\Exception;
 
 /**
  * Gearman PECL Client
@@ -21,7 +22,6 @@ use \mwGearman\Client as Client,
  */
 class Pecl implements Client
 {
-
     /**
      * @var bool
      */
@@ -55,13 +55,13 @@ class Pecl implements Client
     /**
      * Constructor
      *
-     * @return \mwGearman\Client\Pecl
-     * @throws \RuntimeException
+     * @return Pecl
+     * @throws Exception\RuntimeException
      */
     public function __construct()
     {
         if (!extension_loaded('gearman')) {
-            throw new \RuntimeException('PECL gearman extension is not loaded');
+            throw new Exception\RuntimeException('PECL gearman extension is not loaded');
         }
     }
 
@@ -89,7 +89,7 @@ class Pecl implements Client
      * Set GearmanClient
      *
      * @param \GearmanClient $client
-     * @return \mwGearman\Client\Pecl
+     * @return Pecl
      */
     public function setGearmanClient(\GearmanClient $client)
     {
@@ -102,15 +102,15 @@ class Pecl implements Client
      *
      * @param string $host
      * @param int $port
-     * @return \mwGearman\Client\Pecl
-     * @throws \InvalidArgumentException
+     * @return Pecl
+     * @throws Exception\InvalidArgumentException
      */
     public function addServer($host, $port = 4730)
     {
         if (!is_string($host)) {
-            throw new \InvalidArgumentException('The server hostname must be a string');
+            throw new Exception\InvalidArgumentException('The server hostname must be a string');
         } else if (!is_numeric($port)) {
-            throw new \InvalidArgumentException('The server port must be numberic');
+            throw new Exception\InvalidArgumentException('The server port must be numberic');
         }
 
         $this->servers[$host . ':' . $port] = array($host, $port);
@@ -125,7 +125,7 @@ class Pecl implements Client
      * Note that clear servers will only apply if you have not started to
      * send tasks yet; since the PECL extension will lazily load the connection
      *
-     * @return \mwGearman\Client\Pecl
+     * @return Pecl
      */
     public function clearServers()
     {
@@ -150,15 +150,15 @@ class Pecl implements Client
      * Set Servers
      *
      * @param array $servers list of servers in [] = array($host, $port)
-     * @return \mwGearman\Client\Pecl
-     * @throws \InvalidArgumentException
+     * @return Pecl
+     * @throws Exception\InvalidArgumentException
      */
     public function setServers(array $servers)
     {
         foreach ($servers as $server) {
 
             if (!isset($server[0])) {
-                throw new \InvalidArgumentException('The servers array must contain a host value.');
+                throw new Exception\InvalidArgumentException('The servers array must contain a host value.');
             }
 
             if (!isset($server[1])) {
@@ -175,12 +175,12 @@ class Pecl implements Client
      * The GearmanClient does a lazy connection so all
      * we are doing here is simply adding the servers.
      *
-     * @return \mwGearman\Client\Pecl
+     * @return Pecl
      */
     public function connect()
     {
         if (count($this->servers) == 0) {
-            throw new \RuntimeException('You must add servers prior to connecting');
+            throw new Exception\RuntimeException('You must add servers prior to connecting');
         }
 
         $client = $this->getGearmanClient();
@@ -194,7 +194,7 @@ class Pecl implements Client
      * does not have a close method; we actually have
      * to deconstruct the object for this to work.
      *
-     * @return \mwGearman\Client\Pecl
+     * @return Pecl
      */
     public function close()
     {
@@ -210,7 +210,7 @@ class Pecl implements Client
      * Add a task to be executed later with runTasks.
      *
      * @param \mwGearman\Task
-     * @return \mwGearman\Client\Pecl
+     * @return Pecl
      */
     public function addTask(Task $task)
     {
@@ -309,12 +309,12 @@ class Pecl implements Client
      * Set Context
      *
      * @param string $context
-     * @return \mwGearman\Client\Pecl
+     * @return Pecl
      */
     public function setContext($context)
     {
         if (!is_string($context)) {
-            throw new \InvalidArgumentException('Context must be a string');
+            throw new Exception\InvalidArgumentException('Context must be a string');
         }
         $this->context = $context;
         if ($this->isConnected) {
@@ -336,13 +336,13 @@ class Pecl implements Client
      * Set Timeout
      *
      * @param int $timeout
-     * @return \mwGearman\Client\Pecl
-     * @throws \InvalidArgumentException
+     * @return Pecl
+     * @throws Exception\InvalidArgumentException
      */
     public function setTimeout($timeout)
     {
         if (!is_numeric($timeout)) {
-            throw new \InvalidArgumentException('Timeout must be an integer');
+            throw new Exception\InvalidArgumentException('Timeout must be an integer');
         }
         $this->timeout = $timeout;
         if ($this->isConnected) {

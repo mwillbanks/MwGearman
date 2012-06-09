@@ -9,6 +9,9 @@
 
 namespace mwGearman\Task;
 
+use mwGearman\Task as TaskInterface;
+use mwGearman\Exception;
+
 /**
  * Gearman Task
  * Class implements the definition of a task.
@@ -17,7 +20,7 @@ namespace mwGearman\Task;
  * @package    mwGearman
  * @subpacakge Task
  */
-class Task implements \mwGearman\Task
+class Task implements TaskInterface
 {
     /**
      * @var bool
@@ -97,7 +100,7 @@ class Task implements \mwGearman\Task
      * Set Context
      *
      * @param string $context;
-     * @return \mwGearman\Task
+     * @return Task
      */
     public function setContext($context)
     {
@@ -122,8 +125,8 @@ class Task implements \mwGearman\Task
      * Set Function
      *
      * @param string $func
-     * @return \mwGearman\Task
-     * @throws \mwGearman\Exception\InvalidArgumentException
+     * @return Task
+     * @throws Exception\InvalidArgumentException
      */
     public function setFunction($func)
     {
@@ -148,8 +151,8 @@ class Task implements \mwGearman\Task
      * Set Priority
      *
      * @string $priority
-     * @return \mwGearman\Task
-     * @throws \mwGearman\Exception\InvalidArgumentException
+     * @return Task
+     * @throws Exception\InvalidArgumentException
      */
     public function setPriority($priority)
     {
@@ -175,8 +178,8 @@ class Task implements \mwGearman\Task
      * Set Unique
      *
      * @param scalar $uniq
-     * @return \mwGearman\Task
-     * @throws \mwGearman\Exception\InvalidArgumentException
+     * @return Task
+     * @throws Exception\InvalidArgumentException
      */
     public function setUnique($uniq)
     {
@@ -201,8 +204,8 @@ class Task implements \mwGearman\Task
      * Set Workload
      *
      * @param string $workload
-     * @return \mwGearman\Task
-     * @throws \mwGearman\Exception\InvalidArgumentException
+     * @return Task
+     * @throws Exception\InvalidArgumentException
      */
     public function setWorkload($workload)
     {
