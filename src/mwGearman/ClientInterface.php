@@ -2,19 +2,11 @@
 
 namespace mwGearman;
 
-interface Client
+interface ClientInterface
 {
-    // connection related
-    public function addServer($host, $port);
-    public function clearServers();
-    public function getServers();
-    public function setServers(array $servers);
-    public function connect();
-    public function close();
-
     // task related
-    public function addTask(\mwGearman\Task $task);
-    public function doTask(\mwGearman\Task $task);
+    public function addTask(TaskInterface $task);
+    public function doTask(TaskInterface $task);
     public function runTasks();
 
     // global task callbacks (tasks additionally can have callbacks)

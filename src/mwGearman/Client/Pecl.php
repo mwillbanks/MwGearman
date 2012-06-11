@@ -9,8 +9,9 @@
 
 namespace mwGearman\Client;
 
-use mwGearman\Client;
-use mwGearman\Task;
+use mwGearman\Connection\AbstractPecl;
+use mwGearman\ClientInterface;
+use mwGearman\TaskInterface;
 use mwGearman\Exception;
 
 /**
@@ -20,22 +21,12 @@ use mwGearman\Exception;
  * @package    mwGearman
  * @subpackage mwGearman\Client
  */
-class Pecl implements Client
+class Pecl extends AbstractPecl implements ClientInterface
 {
-    /**
-     * @var bool
-     */
-    protected $isConnected = false;
-
     /**
      * @var GearmanClient
      */
     protected $client;
-
-    /**
-     * @var array
-     */
-    protected $servers = array();
 
     /**
      * @var array
@@ -46,11 +37,6 @@ class Pecl implements Client
      * @var string
      */
     protected $context;
-
-    /**
-     * @var int
-     */
-    protected $timeout;
 
     /**
      * Constructor
@@ -107,65 +93,9 @@ class Pecl implements Client
      */
     public function addServer($host, $port = 4730)
     {
-        if (!is_string($host)) {
-            throw new Exception\InvalidArgumentException('The server hostname must be a string');
-        } else if (!is_numeric($port)) {
-            throw new Exception\InvalidArgumentException('The server port must be numberic');
-        }
-
-        $this->servers[$host . ':' . $port] = array($host, $port);
+        parent::addServer($host, $port);
         if ($this->isConnected) {
             $this->getGearmanClient()->addServer($host, $port);
-        }
-        return $this;
-    }
-
-    /**
-     * Clear Servers
-     * Note that clear servers will only apply if you have not started to
-     * send tasks yet; since the PECL extension will lazily load the connection
-     *
-     * @return Pecl
-     */
-    public function clearServers()
-    {
-        $this->servers = array();
-        if ($this->isConnected) {
-            $this->close();
-        }
-        return $this;
-    }
-
-    /**
-     * Get Servers
-     *
-     * @return array
-     */
-    public function getServers()
-    {
-        return $this->servers;
-    }
-
-    /**
-     * Set Servers
-     *
-     * @param array $servers list of servers in [] = array($host, $port)
-     * @return Pecl
-     * @throws Exception\InvalidArgumentException
-     */
-    public function setServers(array $servers)
-    {
-        foreach ($servers as $server) {
-
-            if (!isset($server[0])) {
-                throw new Exception\InvalidArgumentException('The servers array must contain a host value.');
-            }
-
-            if (!isset($server[1])) {
-                $this->addServer($server[0]);
-            } else {
-                $this->addServer($server[0], $server[1]);
-            }
         }
         return $this;
     }
@@ -179,9 +109,10 @@ class Pecl implements Client
      */
     public function connect()
     {
-        if (count($this->servers) == 0) {
-            throw new Exception\RuntimeException('You must add servers prior to connecting');
+        if ($this->isConnected) {
+            return $this;
         }
+        parent::connect();
 
         $client = $this->getGearmanClient();
         $client->addServers(implode(',', array_keys($this->servers)));
@@ -201,9 +132,25 @@ class Pecl implements Client
         if ($this->client instanceof \GearmanClient) {
             $this->client = null;
         }
-        $this->isConnected = false;
+        return parent::close();
+    }
+
+    /**
+     * Set Timeout
+     *
+     * @param int $timeout
+     * @return Pecl
+     * @throws Exception\InvalidArgumentException
+     */
+    public function setTimeout($timeout)
+    {
+        parent::setTimeout($timeout);
+        if ($this->isConnected) {
+            $this->getGearmanClient()->timeout($timeout);
+        }
         return $this;
     }
+
 
     /**
      * Add Task
@@ -212,7 +159,7 @@ class Pecl implements Client
      * @param \mwGearman\Task
      * @return Pecl
      */
-    public function addTask(Task $task)
+    public function addTask(TaskInterface $task)
     {
         $this->tasks[] = $task;
     }
@@ -222,7 +169,7 @@ class Pecl implements Client
      *
      * @return string job handle
      */
-    public function doTask(Task $task)
+    public function doTask(TaskInterface $task)
     {
         $client = $this->getGearmanClient();
         if (!$this->isConnected) {
@@ -320,35 +267,6 @@ class Pecl implements Client
         if ($this->isConnected) {
             $this->getGearmanClient()->setContext($context);
         }
-    }
-
-    /**
-     * Get Timeout
-     *
-     * @return int
-     */
-    public function getTimeout()
-    {
-        return $this->timeout;
-    }
-
-    /**
-     * Set Timeout
-     *
-     * @param int $timeout
-     * @return Pecl
-     * @throws Exception\InvalidArgumentException
-     */
-    public function setTimeout($timeout)
-    {
-        if (!is_numeric($timeout)) {
-            throw new Exception\InvalidArgumentException('Timeout must be an integer');
-        }
-        $this->timeout = $timeout;
-        if ($this->isConnected) {
-            $this->getGearmanClient()->setTimeout($timeout);
-        }
-        return $this;
     }
 
     /**
