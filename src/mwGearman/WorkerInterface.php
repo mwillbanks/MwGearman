@@ -17,66 +17,6 @@ namespace mwGearman;
 interface WorkerInterface
 {
     /**
-     * Add a Server
-     *
-     * @param string $host
-     * @param int $port
-     * @return WorkerInterface
-     */
-    public function addServer($host, $port);
-
-    /**
-     * Clear Servers
-     *
-     * @return WorkerInterface
-     */
-    public function clearServers();
-
-    /**
-     * Get Servers
-     *
-     * @return array
-     */
-    public function getServers();
-
-    /**
-     * Set servers
-     *
-     * @param array $servers list of servers in [] = array($host, $port)
-     * @return WorkerInterface
-     */
-    public function setServers(array $servers);
-
-    /**
-     * Open connection
-     *
-     * @return WorkerInterface
-     */
-    public function connect();
-
-    /**
-     * Close connection
-     *
-     * @return WorkerInterface
-     */
-    public function close();
-
-    /**
-     * Get timeout
-     *
-     * @return int
-     */
-    public function getTimeout();
-
-    /**
-     * Set timeout
-     *
-     * @param int $timeout
-     * @return WorkerInterface
-     */
-    public function setTimeout($timeout);
-
-    /**
      * Register a function
      *
      * @param string $func
