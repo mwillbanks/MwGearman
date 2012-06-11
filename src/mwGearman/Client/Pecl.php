@@ -11,7 +11,7 @@ namespace mwGearman\Client;
 
 use mwGearman\Connection\AbstractPecl;
 use mwGearman\ClientInterface;
-use mwGearman\Task;
+use mwGearman\TaskInterface;
 use mwGearman\Exception;
 
 /**
@@ -159,7 +159,7 @@ class Pecl extends AbstractPecl implements ClientInterface
      * @param \mwGearman\Task
      * @return Pecl
      */
-    public function addTask(Task $task)
+    public function addTask(TaskInterface $task)
     {
         $this->tasks[] = $task;
     }
@@ -169,7 +169,7 @@ class Pecl extends AbstractPecl implements ClientInterface
      *
      * @return string job handle
      */
-    public function doTask(Task $task)
+    public function doTask(TaskInterface $task)
     {
         $client = $this->getGearmanClient();
         if (!$this->isConnected) {
