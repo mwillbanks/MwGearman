@@ -3,7 +3,7 @@
     "description": "A module that implements Gearman",
     "type": "library",
     "keywords": [
-        "zf2"
+        "zf2", "gearman"
     ],
     "homepage": "https://github.com/mwillbanks/mwGearman",
     "authors": [
@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "dev-master",
+        "zendframework/zendframework": "dev-master"
     },
     "autoload": {
         "psr-0": {
