@@ -19,7 +19,7 @@ use mwGearman\Exception;
  * @package    mwGearman
  * @subpackage mwGearman\Connection
  */
-abstract class Pecl implements ConnectionInterface
+abstract class AbstractPecl implements ConnectionInterface
 {
     /**
      * @var bool
