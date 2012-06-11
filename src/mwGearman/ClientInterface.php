@@ -5,8 +5,8 @@ namespace mwGearman;
 interface ClientInterface
 {
     // task related
-    public function addTask(\mwGearman\Task $task);
-    public function doTask(\mwGearman\Task $task);
+    public function addTask(TaskInterface $task);
+    public function doTask(TaskInterface $task);
     public function runTasks();
 
     // global task callbacks (tasks additionally can have callbacks)
