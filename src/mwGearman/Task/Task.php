@@ -9,7 +9,7 @@
 
 namespace mwGearman\Task;
 
-use mwGearman\Task as TaskInterface;
+use mwGearman\TaskInterface;
 use mwGearman\Exception;
 
 /**
@@ -66,7 +66,7 @@ class Task implements TaskInterface
      * Set Background Task
      *
      * @param bool $isBg
-     * @return \mwGearman\Task
+     * @return Task
      */
     public function setBackground($isBg)
     {

@@ -14,7 +14,7 @@ namespace mwGearman;
  * @category mwGearman
  * @package mwGearman
  */
-interface Task
+interface TaskInterface
 {
     /**
      * Get Priority
@@ -27,7 +27,7 @@ interface Task
      * Set Priority
      *
      * @param string $priority
-     * @return \mwGearman\Task
+     * @return TaskInterface
      */
     public function setPriority($priority);
 
@@ -42,7 +42,7 @@ interface Task
      * Set Background
      *
      * @param bool $isBg
-     * @return \mwGearman\Task
+     * @return TaskInterface
      */
     public function setBackground($isBg);
 
@@ -57,7 +57,7 @@ interface Task
      * Set Function
      *
      * @param string $func
-     * @return Task
+     * @return TaskInterface
      * @throws Exception\InvalidArgumentException
      */
     public function setFunction($func);
@@ -73,7 +73,7 @@ interface Task
      * Set Workload
      *
      * @param string $workload
-     * @return Task
+     * @return TaskInterface
      * @throws Exception\InvalidArgumentException
      */
     public function setWorkload($workload);
@@ -89,7 +89,7 @@ interface Task
      * Set Unique
      *
      * @param scalar $uniq
-     * @return Task
+     * @return TaskInterface
      * @throws Exception\InvalidArgumentException
      */
     public function setUnique($uniq);
@@ -112,7 +112,7 @@ interface Task
      * Set Context
      *
      * @param string $context
-     * @return Task
+     * @return TaskInterface
      * @throws Exception\InvalidArgumentException
      */
     public function setContext($context);

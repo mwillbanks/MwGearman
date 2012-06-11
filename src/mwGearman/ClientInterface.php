@@ -2,7 +2,7 @@
 
 namespace mwGearman;
 
-interface Client
+interface ClientInterface
 {
     // connection related
     public function addServer($host, $port);
