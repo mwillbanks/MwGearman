@@ -61,5 +61,5 @@ interface ConnectionInterface {
      * @param int $timeout
      * @return ConnectionInterface
      */
-    public function setTimeout();
+    public function setTimeout($timeout);
 }
