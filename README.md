@@ -80,7 +80,7 @@ return array(
 *Submitting a Job to Gearman*
 ```php
 <?php
-$gearman = $serviceMananger->get('mwGearman\Client\Pecl);
+$gearman = $serviceMananger->get('mwGearman\Client\Pecl');
 $gearman->connect();
 
 $workload = 'some-string';
@@ -97,7 +97,7 @@ $handle = $gearman->doTask($task);
 *Retrieving a Job from Gearman*
 ```php
 <?php
-$gearman = $serviceMananger->get('mwGearman\Worker\Pecl);
+$gearman = $serviceMananger->get('mwGearman\Worker\Pecl');
 $gearman->register('myJob', 'handleJob');
 $gearman->connect();
 while($gearman->work());
