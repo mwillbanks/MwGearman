@@ -79,6 +79,7 @@ return array(
 
 *Submitting a Job to Gearman*
 ```php
+<?php
 $gearman = $serviceMananger->get('mwGearman\Client\Pecl);
 $gearman->connect();
 
@@ -95,6 +96,7 @@ $handle = $gearman->doTask($task);
 
 *Retrieving a Job from Gearman*
 ```php
+<?php
 // this is still in progress and will likely change since jobs have not been abstracted yet
 $gearman = $serviceMananger->get('mwGearman\Worker\Pecl);
 $gearman->register('myJob', 'handleJob');
