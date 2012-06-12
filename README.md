@@ -97,20 +97,18 @@ $handle = $gearman->doTask($task);
 *Retrieving a Job from Gearman*
 ```php
 <?php
-// this is still in progress and will likely change since jobs have not been abstracted yet
 $gearman = $serviceMananger->get('mwGearman\Worker\Pecl);
 $gearman->register('myJob', 'handleJob');
 $gearman->connect();
 while($gearman->work());
 
 function handleJob($job) {
-    $workload = $job->getWorkload();
+    $workload = $job->workload();
     echo $workload;
 }
 
 ```
 Roadmap
 -------
-* Abstract GearmanJob to ensure that we are properly handling jobs
 * Integrate Net\_Gearman from PEAR
 * Integrate Zend\Console for a BaseWorker

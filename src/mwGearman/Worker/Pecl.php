@@ -10,8 +10,10 @@
 namespace mwGearman\Worker;
 
 use mwGearman\Connection\AbstractPecl;
+use mwGearman\Job\Pecl as PeclJob;
 use mwGearman\WorkerInterface;
 use mwGearman\Exception;
+use GearmanJob;
 
 /**
  * PECL Gearman Worker
@@ -64,7 +66,7 @@ class Pecl extends AbstractPecl implements WorkerInterface
 
         if ($this->functions !== null) {
             foreach ($this->functions as $f) {
-                $this->worker->register($f);
+                $this->worker->register($f, array($this, 'proxify'));
             }
         }
     }
@@ -158,19 +160,21 @@ class Pecl extends AbstractPecl implements WorkerInterface
      * Register a function
      *
      * @param string $name
-     * @param string $func
+     * @param string|array $func
      * @return Pecl
      * @throws Exception\InvalidArgumentException
      */
     public function register($name, $func)
     {
-        if (!is_string($func)) {
+        if (!is_string($func) && !is_array($func)) {
             throw new Exception\InvalidArgumentException('Function to register must be a string');
+        } else if (!is_callable($func)) {
+            throw new Exception\InvalidArgumentException('Function `%s` is not callable');
         }
         if (!isset($this->functions[$name])) {
             $this->functions[$name] = $func;
             if ($this->isConnected) {
-                $this->getGearmanWorker()->register($name, $func);
+                $this->getGearmanWorker()->register($name, array($this, 'proxify'));
             }
         }
         return $this;
@@ -230,6 +234,23 @@ class Pecl extends AbstractPecl implements WorkerInterface
             $this->connect();
         }
         return @$this->getGearmanWorker()->work();
+    }
+
+    /**
+     * Proxify
+     * This method is the glue for work to be passed
+     * to the function requested
+     *
+     * @param \GearmanJob $job
+     * @return mixed
+     */
+    public function proxify(GearmanJob $job)
+    {
+        $job = new PeclJob($job);
+        if ($callback = $this->functions[$job->name()]) {
+            return call_user_func($callback, $job);
+        }
+        return false;
     }
 
 
