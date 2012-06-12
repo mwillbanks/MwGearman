@@ -19,18 +19,19 @@ interface WorkerInterface
     /**
      * Register a function
      *
+     * @param string $name
      * @param string $func
      * @return WorkerInterface
      */
-    public function register($func);
+    public function register($name, $func);
 
     /**
      * Unregister a function
      *
-     * @param string $func
+     * @param string $name
      * @return WorkerInterface
      */
-    public function unregister($func);
+    public function unregister($name);
 
     /**
      * Test job server response

@@ -157,19 +157,20 @@ class Pecl extends AbstractPecl implements WorkerInterface
     /**
      * Register a function
      *
+     * @param string $name
      * @param string $func
      * @return Pecl
      * @throws Exception\InvalidArgumentException
      */
-    public function register($func)
+    public function register($name, $func)
     {
         if (!is_string($func)) {
             throw new Exception\InvalidArgumentException('Function to register must be a string');
         }
-        if (!in_array($func, $this->functions)) {
-            $this->functions[] = $func;
+        if (!isset($this->functions[$name])) {
+            $this->functions[$name] = $func;
             if ($this->isConnected) {
-                $this->getGearmanWorker()->register($func);
+                $this->getGearmanWorker()->register($name, $func);
             }
         }
         return $this;
@@ -178,13 +179,12 @@ class Pecl extends AbstractPecl implements WorkerInterface
     /**
      * Unregister a function
      *
-     * @param string $func
+     * @param string $name
      * @return Pecl
      */
-    public function unregister($func)
+    public function unregister($name)
     {
-        $key = array_search($func, $this->functions);
-        if ($key !== false) {
+        if (isset($this->functions[$name])) {
             unset($this->functions[$key]);
             if ($this->isConnected) {
                 $this->getGearmanWorker()->unregister($func);
