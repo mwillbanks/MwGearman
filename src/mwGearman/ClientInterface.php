@@ -21,8 +21,6 @@ interface ClientInterface
     // application specific
     public function getContext();
     public function setContext($context);
-    public function getTimeout();
-    public function setTimeout($timeout);
 
     public function ping($workload);
 }
