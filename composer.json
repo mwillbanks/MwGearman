@@ -1,11 +1,11 @@
 {
     "name": "mwillbanks/mw-gearman",
-    "description": "A module that implements Gearman",
+    "description": "A ZF2 modules that provides a gearman wrapper.",
     "type": "library",
     "keywords": [
-        "zf2", "gearman"
+        "zf2", "gearman", "MwGearman"
     ],
-    "homepage": "https://github.com/mwillbanks/mwGearman",
+    "homepage": "https://github.com/mwillbanks/MwGearman",
     "authors": [
         {
             "name": "Mike Willbanks",
@@ -13,16 +13,25 @@
             "homepage": "http://blog.digitalstruct.com/"
         }
     ],
-    "require": {
-        "php": ">=5.3.3",
-        "zendframework/zendframework": "2.*"
-    },
     "autoload": {
         "psr-0": {
-            "mwGearman": "src/"
+            "MwGearman\\": "src/"
         },
         "classmap": [
             "./"
         ]
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.zendframework.com/"
+        }
+    ],
+    "require": {
+        php": ">=5.3.3"
+    },
+    "require-dev": {
+        "zendframework/zendframework": "2.*",
+        "phpunit/phpunit": "3.7.*"
     }
 }
