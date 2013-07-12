@@ -174,7 +174,8 @@ class Pecl extends AbstractPecl implements WorkerInterface
         if (!isset($this->functions[$name])) {
             $this->functions[$name] = $func;
             if ($this->isConnected) {
-                $this->getGearmanWorker()->register($name, array($this, 'proxify'));
+                $this->getGearmanWorker()->register($name);
+                $this->getGearmanWorker()->addFunction($name, array($this, 'proxify'));
             }
         }
         return $this;
