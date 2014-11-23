@@ -69,6 +69,8 @@ class Pecl extends AbstractPecl implements WorkerInterface
                 $this->register($f, array($this, 'proxify'));
             }
         }
+        
+        return $this->worker;
     }
 
     /**
