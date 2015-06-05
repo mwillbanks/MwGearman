@@ -4,7 +4,8 @@ namespace mwGearman\Exception;
 
 use mwGearman\Exception;
 
-class InvalidArgumentException 
+class InvalidArgumentException
     extends \InvalidArgumentException
     implements Exception
-{}
+{
+}

@@ -27,7 +27,7 @@ use GearmanJob;
 class Pecl extends AbstractPecl implements WorkerInterface
 {
     /**
-     * @var GearmanWorker
+     * @var \GearmanWorker
      */
     protected $worker;
 
@@ -69,7 +69,7 @@ class Pecl extends AbstractPecl implements WorkerInterface
                 $this->register($f, array($this, 'proxify'));
             }
         }
-        
+
         return $this->worker;
     }
 
@@ -120,7 +120,7 @@ class Pecl extends AbstractPecl implements WorkerInterface
         $client = $this->getGearmanWorker();
         $client->addServers(implode(',', array_keys($this->servers)));
         foreach ($this->functions as $f) {
-            $client->register($f);
+            $client->register($f,0);
         }
         $this->isConnected = true;
         return $this;
@@ -176,7 +176,7 @@ class Pecl extends AbstractPecl implements WorkerInterface
         if (!isset($this->functions[$name])) {
             $this->functions[$name] = $func;
             if ($this->isConnected) {
-                $this->getGearmanWorker()->register($name);
+                $this->getGearmanWorker()->register($name,0);
                 $this->getGearmanWorker()->addFunction($name, array($this, 'proxify'));
             }
         }
@@ -192,7 +192,8 @@ class Pecl extends AbstractPecl implements WorkerInterface
     public function unregister($name)
     {
         if (isset($this->functions[$name])) {
-            unset($this->functions[$key]);
+            $func = $this->functions[$name];
+            unset($this->functions[$name]);
             if ($this->isConnected) {
                 $this->getGearmanWorker()->unregister($func);
             }

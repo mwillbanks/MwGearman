@@ -3,19 +3,19 @@
  * mwGearman
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 
 namespace mwGearman\Job;
 
+use GearmanJob;
 use mwGearman\JobInterface;
-use \GearmanJob;
 
 /**
  * Job Interface
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 class Pecl extends AbstractJob
 {
@@ -53,19 +53,20 @@ class Pecl extends AbstractJob
      */
     public function setGearmanJob(GearmanJob $job)
     {
-         $this->job = $job;
-         $this->setName($job->functionName())
+        $this->job = $job;
+        $this->setName($job->functionName())
              ->setUnique($job->unique())
              ->setHandle($job->handle())
              ->setWorkload($job->workload())
              ->setSize($job->workloadSize());
-        return $this;      
+
+        return $this;
     }
 
     /**
      * Notify the Client
      *
-     * @param int $type one of NOTIFY_*
+     * @param int    $type one of NOTIFY_*
      * @param string $data
      * @return bool
      */
@@ -86,6 +87,7 @@ class Pecl extends AbstractJob
         if ($type == JobInterface::NOTIFY_WARNING) {
             return $this->job->notifyWarning($data);
         }
+
         return false;
     }
 

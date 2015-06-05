@@ -3,4 +3,5 @@
 namespace mwGearman;
 
 interface Exception
-{}
+{
+}

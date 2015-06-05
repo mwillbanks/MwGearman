@@ -3,7 +3,7 @@
  * mwGearman
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 
 namespace mwGearman;
@@ -12,7 +12,7 @@ namespace mwGearman;
  * Task Interface
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 interface TaskInterface
 {
@@ -81,14 +81,14 @@ interface TaskInterface
     /**
      * Get Unique
      *
-     * @return scalar
+     * @return string
      */
     public function getUnique();
 
     /**
      * Set Unique
      *
-     * @param scalar $uniq
+     * @param string $uniq
      * @return TaskInterface
      * @throws Exception\InvalidArgumentException
      */

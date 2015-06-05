@@ -24,7 +24,7 @@ use mwGearman\Exception;
 class Pecl extends AbstractPecl implements ClientInterface
 {
     /**
-     * @var GearmanClient
+     * @var \GearmanClient
      */
     protected $client;
 

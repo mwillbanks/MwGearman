@@ -3,7 +3,7 @@
  * mwGearman
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 
 namespace mwGearman;
@@ -12,7 +12,7 @@ namespace mwGearman;
  * Worker Interface
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 interface WorkerInterface
 {
