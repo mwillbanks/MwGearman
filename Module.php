@@ -9,6 +9,7 @@
 namespace mwGearman;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
 /**
  * Module Setup
@@ -16,7 +17,7 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
  * @category   mwGearman
  * @package    Module
  */
-class Module implements AutoloaderProviderInterface
+class Module implements ConfigProviderInterface, AutoloaderProviderInterface
 {
     /**
      * Get Config

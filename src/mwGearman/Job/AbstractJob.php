@@ -3,7 +3,7 @@
  * mwGearman
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 
 namespace mwGearman\Job;
@@ -14,7 +14,7 @@ use mwGearman\JobInterface;
  * Job Interface
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 abstract class AbstractJob implements JobInterface
 {
@@ -59,8 +59,10 @@ abstract class AbstractJob implements JobInterface
      * @param string $name
      * @return JobInterface
      */
-    protected function setName($name) {
-        $this->name = (string) $name;
+    protected function setName($name)
+    {
+        $this->name = (string)$name;
+
         return $this;
     }
 
@@ -82,7 +84,8 @@ abstract class AbstractJob implements JobInterface
      */
     protected function setHandle($handle)
     {
-        $this->handle = (string) $handle;
+        $this->handle = (string)$handle;
+
         return $this;
     }
 
@@ -99,12 +102,13 @@ abstract class AbstractJob implements JobInterface
     /**
      * Set the unique id
      *
-     * @param scalar $id
+     * @param string $id
      * @return JobInterface
      */
     protected function setUnique($id)
     {
         $this->unique = $id;
+
         return $this;
     }
 
@@ -127,6 +131,7 @@ abstract class AbstractJob implements JobInterface
     protected function setWorkload($workload)
     {
         $this->workload = $workload;
+
         return $this;
     }
 
@@ -154,7 +159,7 @@ abstract class AbstractJob implements JobInterface
     /**
      * Notify the Client
      *
-     * @param int $type one of NOTIFY_*
+     * @param int    $type one of NOTIFY_*
      * @param string $data
      * @return bool
      */

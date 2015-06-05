@@ -3,7 +3,7 @@
  * mwGearman
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 
 namespace mwGearman;
@@ -12,7 +12,7 @@ namespace mwGearman;
  * Job Interface
  *
  * @category mwGearman
- * @package mwGearman
+ * @package  mwGearman
  */
 interface JobInterface
 {
@@ -64,7 +64,7 @@ interface JobInterface
     /**
      * Notify the Client
      *
-     * @param int $type one of NOTIFY_*
+     * @param int    $type one of NOTIFY_*
      * @param string $data
      * @return bool
      */

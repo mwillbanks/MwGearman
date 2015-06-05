@@ -2,12 +2,13 @@
 
 namespace mwGearman;
 
-interface ConnectionInterface {
+interface ConnectionInterface
+{
     /**
      * Add a server
      *
      * @param string $host
-     * @param int $port
+     * @param int    $port
      * @return ConnectionInterface
      */
     public function addServer($host, $port);

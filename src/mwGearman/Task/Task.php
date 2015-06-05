@@ -177,7 +177,7 @@ class Task implements TaskInterface
     /**
      * Set Unique
      *
-     * @param scalar $uniq
+     * @param string $uniq
      * @return Task
      * @throws Exception\InvalidArgumentException
      */
